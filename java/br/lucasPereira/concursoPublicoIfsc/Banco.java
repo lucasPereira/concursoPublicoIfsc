@@ -2,19 +2,21 @@ package br.lucasPereira.concursoPublicoIfsc;
 
 import java.util.List;
 
+import br.lucasPereira.concursoPublicoIfsc.ContaBancaria;
+
 public class Banco {
 
 	private List<ContaBancaria> contas;
 	private Double taxaDeJurosPaga;
-	private Double taxaDeOperacoesCobrada;
+	private Double taxaCobradaPorOperacao;
 
-	public Banco(List<ContaBancaria> contas, Double taxaDeJurosPaga, Double taxaDeOperacoesCobrada) {
+	public Banco(List<ContaBancaria> contas, Double taxaDeJurosPaga, Double taxaCobradaPorOperacao) {
 		this.contas = contas;
 		this.taxaDeJurosPaga = taxaDeJurosPaga;
-		this.taxaDeOperacoesCobrada = taxaDeOperacoesCobrada;
+		this.taxaCobradaPorOperacao = taxaCobradaPorOperacao;
 	}
 
-	public void pagarJurosMensalAosClientes() {
+	public void pagarJurosMensal() {
 		for (ContaBancaria conta : contas) {
 			Integer saldo = conta.calcularSaldo();
 			Double juros = saldo * taxaDeJurosPaga;
@@ -22,11 +24,11 @@ public class Banco {
 		}
 	}
 
-	public void transferir(ContaBancaria origem, ContaBancaria destino, Integer valorDaTransferencia) {
-		Double comissaoDoBanco = valorDaTransferencia * taxaDeOperacoesCobrada;
-		origem.sacar(valorDaTransferencia);
+	public void transferir(ContaBancaria origem, ContaBancaria destino, Integer valor) {
+		Double comissaoDoBanco = valor * taxaCobradaPorOperacao;
+		origem.sacar(valor);
 		origem.sacar(comissaoDoBanco.intValue());
-		destino.depositar(valorDaTransferencia);
+		destino.depositar(valor);
 	}
 
 }
